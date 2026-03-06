@@ -1,4 +1,4 @@
-# DreamAI
+# DreamAI2
 - [Authors](#authors)
 - [Overview](#Overview)
 - [Installation](#installation)
