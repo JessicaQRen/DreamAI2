@@ -43,7 +43,7 @@ knn.est.it2 = function(data, k, m.ind=T)
 
 #' @title Imputation of Missing Protein Abundances using K Nearest Neighbour
 #' @description The function impute.KNN imputes a dataset with missing values or NA's using k nearest neighbour
-#' @param data dataset in the form of a matrix or data frame with either NAs or 0s as missings
+#' @param data dataset in the form of a matrix or data frame with NAs as missings
 #' @param k number of neighbors to be used in the imputation (default=10)
 #'
 #' @return the imputed version of the dataset
@@ -65,9 +65,9 @@ impute.KNN = function(data,k)
 
   impu.temp = impute.knn(data.new,k,rowmax = 0.9,colmax = 0.9,maxp=dim(data)[1]);
 
-  X1b.new = my.normlize.rev((impu.temp[[1]]), median.new, sd.new);
-  # X1b.new[X1b.new<0] = 0;
-  return((X1b.new));
+  X.new = my.normlize.rev((impu.temp[[1]]), median.new, sd.new);
+  # X.new[X.new<0] = 0;
+  return((X.new));
 
 }
 
@@ -75,7 +75,7 @@ impute.KNN = function(data,k)
 
 #' @title Imputation of Missing Protein Abundances using MissForest
 #' @description The function impute.MF imputes a dataset with missing values or NA's using MissForest
-#' @param data dataset in the form of a matrix or data frame with either NAs or 0s as missing values
+#' @param data dataset in the form of a matrix or data frame with NAs as missing values
 #' @param maxiter_MF maximum number of iteration to be performed if the stopping criteria is not met beforehand
 #' @param ntree number of trees to grow in each forest
 #' @param maxnodes maximum number of terminal nodes for trees in the forest, has to equal at least the number of columns in the given data
@@ -109,7 +109,7 @@ impute.MF = function(data = as.matrix(data),maxiter_MF, ntree, maxnodes)
 
 #' @title Imputation of Missing Protein Abundances using ADMIN (Abundance  Dependent  Missing Imputation Mechanism)
 #'@description The function impute.ADMIN imputes a dataset with missing values or NA's using ADMIN
-#' @param data dataset in the form of a matrix or data frame with either NAs or 0s as missings
+#' @param data dataset in the form of a matrix or data frame with NAs as missings
 #' @param data.ini initial dataset, set to be NA as default
 #' @param gamma parameter of the non-ignorable missing mechanism
 #' @param k number of neighbors to be used in the imputation (default=10)
@@ -173,4 +173,29 @@ impute.ADMIN = function(data,data.ini=NA,gamma, k, maxiter_ADMIN,tol)
 }
 
 
+
+
+#' @title Imputation of Missing Protein Abundances using MICE
+#' @description The function impute.mice imputes a dataset with missing values or NA's using mice.
+#' @param data dataset in the form of a matrix or data frame with NAs as missings.
+#' @param m Number of multiple imputations. The default is m=1.
+#' @param method Specifying the imputation method to be used for each column in data. The default is 'pmm'.
+#' @param maxit A scalar giving the number of iterations. The default is 20.
+#' @return the imputed version of the dataset
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' data(datapnnl)
+#' data<-datapnnl.rm.ref[1:100,1:21]
+#' impute.mice(data=as.matrix(data))
+#' }
+impute.mice = function(data,m = 1,method = 'pmm',maxit = 20,  ...)
+{  
+  impu.temp = mice(data, m = m, method = method, maxit = 20, print=FALSE)
+  impu.list <- complete(imp, 'all')
+  impu.out = Reduce('+',tempdataMICE)/length(tempdataMICE)
+  rownames(impu.out) = rownames(data)
+  return(impu.out);
+}
 
