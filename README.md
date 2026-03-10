@@ -16,7 +16,7 @@
 
 ### Description
 
-The function DreamAI2 imputes a dataset with missing values or NA's using individual or ensemble matrix from 7 different methods.
+The function DreamAI2 imputes a dataset with missing values or NA's using individual or ensemble output from 7 different methods.
 
 Individual methods:
  - "KNN": k nearest neighbor 
@@ -85,7 +85,7 @@ method = c("KNN", "MissForest", "ADMIN", "Birnn", "SpectroFM", "RegImpute","MICE
 impute$Ensemble
 ```
 
-## DreamAI::DreamAI_Bagging
+## DreamAI2::DreamAI2_Bagging
 - [Description](#description-1)
 - [Usage](#usage-1)
 - [Arguments](#arguments-1)
@@ -95,7 +95,7 @@ impute$Ensemble
 
 ### Description
 
-The function DreamAI_bagging imputes a dataset with missing values or NA's by bag imputaion with help of parallel processing. Pseudo datasets are generated having true missing (as in the original dataset) and pseudo missing and every such pseudo dataset is imputed by 7 different methods: KNN, MissForest, ADMIN, Birnn, SpectroFM, RegImpute and Ensemble (descriptions are included in the documentation of the function DreamAI).
+The function DreamAI_bagging imputes a dataset with missing values or NA's by bag imputaion with help of parallel processing. Pseudo datasets are generated having true missing (as in the original dataset) and pseudo missing and every such pseudo dataset is imputed by individual or ensemble output of the 7 different methods: KNN, MissForest, ADMIN, Birnn, SpectroFM, RegImpute and MICE (descriptions are included in the documentation of the function DreamAI2).
 
 ### Usage
 ```
